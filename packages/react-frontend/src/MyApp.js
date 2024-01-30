@@ -8,6 +8,12 @@ const characters = [];
 function MyApp() {
     const [characters, setCharacters] = useState ([]);
 
+    function fetchUsers() {
+        const promise = fetch("http://localhost:8000/users");
+        return promise;
+    }
+
+
     function removeOneCharacter(index) {
         const updated = characters.filter((character, i) => {
             return i !== index;
