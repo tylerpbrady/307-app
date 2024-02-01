@@ -87,20 +87,6 @@ app.get("/users/:id", (req, res) => {
 });
 
 
-
-// app.get("/users", (req, res) => {
-//     const name = req.query.name;
-//     const job = req.query.job;
-
-//     if (name != undefined && job != undefined) {
-//         let result = findUserByNameAndJob(name, job);
-//         result = { users_list: result};
-//         res.send(result);
-//     } else {
-//         res.send(users);
-//     }
-// });
-
 const addUser = (user) => {
     users["users_list"].push(user);
     return user;
@@ -108,8 +94,10 @@ const addUser = (user) => {
 
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
+    const uniqueId = Math.random()
+    userToAdd.id = uniqueId;
     addUser(userToAdd);
-    res.send();
+    res.status(201).send(userToAdd);
 });
 
 const deleteUser = (id) => {
@@ -129,7 +117,7 @@ app.delete("/users/:id", (req, res) => {
     if (result === 404) {
         res.status(404).send("User not found.");
     } else {
-        res.status(200).send("User deleted successfully.");
+        res.status(204).send();
     }
 })
 

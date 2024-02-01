@@ -33,15 +33,44 @@ function MyApp() {
     }
 
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-            return i !== index;
+        // const updated = characters.filter((character, i) => {
+        //     return i !== index;
+        // });
+        // setCharacters(updated);
+
+        const charId = characters[index].id;
+        fetch(`Http://localhost:8000/users/${charId}`, {
+            method: "DELETE"
+        })
+        .then((response) => {
+            if (response.status === 204) {
+                const updated = characters.filter((character, i) => {
+                    return i !== index;
+
+                });
+                setCharacters(updated);
+            } else {
+                console.error("Failed to delete");
+            }
+        })
+        .catch((error) => {
+            console.log(error);
         });
-        setCharacters(updated);
     }
 
     function updateList(person) { 
         postUser(person)
-          .then(() => setCharacters([...characters, person]))
+          .then((response) => {
+              if (response.status === 201) {
+                return response.json();  
+                //   setCharacters([...characters, person])
+              } else {
+                console.error("Failed to create user.");  
+              }
+          })
+          .then((newUser) => {
+              setCharacters([...characters, newUser]);
+          })
           .catch((error) => {
             console.log(error);
           })
