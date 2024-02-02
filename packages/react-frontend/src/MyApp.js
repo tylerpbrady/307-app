@@ -82,6 +82,7 @@ function MyApp() {
         <Table 
             characterData = {characters}
             removeCharacter = {removeOneCharacter}
+            characterId = {characters.id}
         />
         <Form handleSubmit = {updateList}/>
       </div>
