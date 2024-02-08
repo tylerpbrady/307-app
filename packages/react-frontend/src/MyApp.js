@@ -38,7 +38,7 @@ function MyApp() {
         // });
         // setCharacters(updated);
 
-        const charId = characters[index].id;
+        const charId = characters[index]._id;
         fetch(`Http://localhost:8000/users/${charId}`, {
             method: "DELETE"
         })
@@ -82,7 +82,7 @@ function MyApp() {
         <Table 
             characterData = {characters}
             removeCharacter = {removeOneCharacter}
-            characterId = {characters.id}
+            characterId = {characters._id}
         />
         <Form handleSubmit = {updateList}/>
       </div>

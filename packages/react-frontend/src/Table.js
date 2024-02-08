@@ -26,7 +26,7 @@ function TableBody(props) {
                     </button>
                 </td>
                 <td>
-                    {row.id}
+                    {row._id}
                 </td>
             </tr>
         );
