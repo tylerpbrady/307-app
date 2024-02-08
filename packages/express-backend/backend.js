@@ -86,12 +86,13 @@ app.get("/users/:id", (req, res) => {
     }
 });
 
-
+// here
 const addUser = (user) => {
     users["users_list"].push(user);
     return user;
 };
 
+// here
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
     const uniqueId = Math.random()
@@ -100,9 +101,8 @@ app.post("/users", (req, res) => {
     res.status(201).send(userToAdd);
 });
 
+// here
 const deleteUser = (id) => {
-    // search for user and delete
-    // 
     const idx = users["users_list"].findIndex((user) => user["id"] === id);
     if (idx === -1) {
         return false;
@@ -111,6 +111,7 @@ const deleteUser = (id) => {
     }
 }
 
+// here
 app.delete("/users/:id", (req, res) => {
     // call deleteUser
     const result = deleteUser(req.params["id"]);
