@@ -11,15 +11,28 @@ mongoose
   .catch((error) => console.log(error));
 
 function getUsers(name, job) {
-  let promise;
-  if (name === undefined && job === undefined) {
-    promise = userModel.find();
-  } else if (name && !job) {
-    promise = findUserByName(name);
-  } else if (job && !name) {
-    promise = findUserByJob(job);
-  }
-  return promise;
+
+    let targetPeople = {};
+
+    if (name !== undefined) {
+        targetPeople.name = name;
+    }
+
+    if (job !== undefined) {
+        targetPeople.job = job;
+    }
+
+    return userModel.find(targetPeople);
+
+//   let promise;
+//   if (name === undefined && job === undefined) {
+//     promise = userModel.find();
+//   } else if (name && !job) {
+//     promise = findUserByName(name);
+//   } else if (job && !name) {
+//     promise = findUserByJob(job);
+//   }
+//   return promise;
 }
 
 function findUserById(id) {

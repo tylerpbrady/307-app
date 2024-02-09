@@ -44,48 +44,45 @@ app.get("/", (req, res) => {
 });
 
 
-// const findUserByName = (name) => {
-//     return users["users_list"].filter(
-//       (user) => user["name"] === name
-//     );
-//   };
-
-// const findUserByNameAndJob = (name, job) => {
-//     return users["users_list"].filter(
-//         (user) => (user["name"] === name && user["job"] === job)
-//     );
-// };
-
-  
-// const findUserById = (id) =>
-//     users["users_list"].find((user) => user["id"] === id);
-
-
 // modified this one
 app.get("/users", (req, res) => {
     const name = req.query.name;
     const job = req.query.job;
 
-    if (name != undefined && job != undefined) {
-      userServices.findUserByName(name)
-        .then((userNames) => {
-          const filtered = userNames.filter((user) => user.job === job);
-          res.send({ users_list: filtered});
-        })
-        .catch((error) => {
-          console.error("Couldn't find user");
-          res.send(500).send("Internal error.");
-        });
-    } else {
-        userServices.getUsers(name, job)
-        .then((users) => {
-          res.send({ users_list: users });
-        })
-        .catch((error) => {
-          console.error("User not found.");
-          res.status(500).send("Internal Error.");
-        });
-    }
+    userServices.getUsers(name, job)
+      .then((result) => {
+        if (result === undefined) {
+          res.status(404).send("Resource not found.");
+        } else {
+          res.send(result);
+        }
+      })
+      .catch((error) => {
+        console.error("User not found.");
+        res.status(500).send("Internal error.");
+      });
+
+
+    // if (name != undefined && job != undefined) {
+    //   userServices.findUserByName(name)
+    //     .then((userNames) => {
+    //       const filtered = userNames.filter((user) => user.job === job);
+    //       res.send({ users_list: filtered});
+    //     })
+    //     .catch((error) => {
+    //       console.error("Couldn't find user");
+    //       res.send(500).send("Internal error.");
+    //     });
+    // } else {
+    //     userServices.getUsers(name, job)
+    //     .then((users) => {
+    //       res.send({ users_list: users });
+    //     })
+    //     .catch((error) => {
+    //       console.error("User not found.");
+    //       res.status(500).send("Internal Error.");
+    //     });
+    // }
 
     // if (name != undefined && job != undefined) {
     //     let result = findUserByNameAndJob(name, job);
@@ -116,19 +113,7 @@ app.get("/users/:id", (req, res) => {
         res.status(500).send("Internal error.");
       });
 
-    // let result = findUserById(id);
-    // if (result === undefined) {
-    //     res.status(404).send("Resource not found.");
-    // } else {
-    //     res.send(result)
-    // }
 });
-
-// here
-// const addUser = (user) => {
-//     users["users_list"].push(user);
-//     return user;
-// };
 
 // here
 app.post("/users", (req, res) => {
@@ -186,7 +171,7 @@ app.delete("/users/:id", (req, res) => {
     // } else {
     //     res.status(204).send();
     // }
-})
+});
 
 app.listen(port, () => {
   console.log(
